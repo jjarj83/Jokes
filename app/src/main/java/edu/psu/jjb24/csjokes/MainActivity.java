@@ -13,7 +13,8 @@ import android.view.View;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DisplaySetupDialog.SetupDialogListener,
+                                                        DisplayPunchlineDialog.PunchDialogListener {
     String[] joke_title;
     String[] joke_setup;
     String[] joke_punchline;
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_joke:
+                int max = joke_title.length - 1;
+                int min = 0;
+                currentJoke = (int)(Math.random()*((max-min)+1))+min;
                 jokeSetup();
                 return true;
             default:
@@ -52,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jokeSetup() {
-        String title = joke_title[0];
-        String setup = joke_setup[0];
+        String title = joke_title[currentJoke];
+        String setup = joke_setup[currentJoke];
 
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -65,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void jokePunchline() {
-        String title = joke_title[0];
-        String punch = joke_punchline[0];
+        String title = joke_title[currentJoke];
+        String punch = joke_punchline[currentJoke];
 
         Bundle args = new Bundle();
         args.putString("title", title);
